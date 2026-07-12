@@ -17,7 +17,26 @@ def run_web():
     app_web.run(host="0.0.0.0", port=port)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("سلام! ربات فیلم آماده است 🎬")
+    movie_id = context.args[0] if context.args else None
+
+    if movie_id == "test":
+        await update.message.reply_text(
+            "🎬 فیلم تست\n\n"
+            "⭐ امتیاز: 8/10\n"
+            "🎭 ژانر: ترسناک، روانشناختی\n\n"
+            "📝 وقتی تاریکی وارد ذهن انسان می‌شود، "
+            "مرز بین واقعیت و کابوس از بین می‌رود...\n\n"
+            "در حال ارسال فیلم..."
+        )
+
+        await update.message.reply_video(
+            video="BAACAgQAAxkBAAMFalLmAAHABPdKkwUf5Ecb52zufLakAAL_HgAC3niYUk8-BZSOitwCPAQ"
+        )
+
+    else:
+        await update.message.reply_text(
+            "سلام! برای دریافت فیلم از لینک اختصاصی استفاده کن 🎬"
+        )
 
 async def get_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     video = update.message.video
