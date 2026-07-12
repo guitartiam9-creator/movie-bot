@@ -5,7 +5,15 @@ import threading
 import os
 
 TOKEN = "8918158673:AAEtODhVr06C0jkeH3KtDTYj9vKPwrVa8k0"
-
+movies = {
+    "test": {
+        "title": "فیلم تست",
+        "rating": "8/10",
+        "genre": "ترسناک، روانشناختی",
+        "description": "وقتی مرز بین واقعیت و کابوس از بین می‌رود...",
+        "file_id": "BAACAgQAAxkBAAMFalLmAAHABPdKkwUf5Ecb52zufLakAAL_HgAC3niYUk8-BZSOitwCPAQ"
+    }
+}
 app_web = Flask(__name__)
 
 @app_web.route("/")
@@ -17,25 +25,26 @@ def run_web():
     app_web.run(host="0.0.0.0", port=port)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    movie_id = context.args[0] if context.args else None
+    movie_key = context.args[0] if context.args else None
 
-    if movie_id == "test":
+    if movie_key in movies:
+        movie = movies[movie_key]
+
         await update.message.reply_text(
-            "🎬 فیلم تست\n\n"
-            "⭐ امتیاز: 8/10\n"
-            "🎭 ژانر: ترسناک، روانشناختی\n\n"
-            "📝 وقتی تاریکی وارد ذهن انسان می‌شود، "
-            "مرز بین واقعیت و کابوس از بین می‌رود...\n\n"
-            "در حال ارسال فیلم..."
+            f"🎬 {movie['title']}\n\n"
+            f"⭐ امتیاز: {movie['rating']}\n"
+            f"🎭 ژانر: {movie['genre']}\n\n"
+            f"📝 {movie['description']}\n\n"
+            "🎥 در حال ارسال فیلم..."
         )
 
         await update.message.reply_video(
-            video="BAACAgQAAxkBAAMFalLmAAHABPdKkwUf5Ecb52zufLakAAL_HgAC3niYUk8-BZSOitwCPAQ"
+            video=movie["file_id"]
         )
 
     else:
         await update.message.reply_text(
-            "سلام! برای دریافت فیلم از لینک اختصاصی استفاده کن 🎬"
+            "🎬 لطفاً از لینک اختصاصی فیلم استفاده کن."
         )
 
 async def get_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
