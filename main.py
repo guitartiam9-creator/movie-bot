@@ -4,7 +4,7 @@ from flask import Flask
 import threading
 import os
 
-TOKEN = "8918158673:AAEtODhVr06C0jkeH3KtDTYj9vKPwrVa8k0"
+TOKEN = "8918158673:AAHDQMvuwqS70MmMGknvlljQUf4DZ0F5dP4"
 movies = {
     "test": {
         "title": "فیلم تست",
