@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from flask import Flask
 import threading
 import os
@@ -19,9 +19,16 @@ def run_web():
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("سلام! ربات فیلم آماده است 🎬")
 
+async def get_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    video = update.message.video
+    await update.message.reply_text(f"File ID:\n{video.file_id}")
+
 def run_bot():
     app = Application.builder().token(TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.VIDEO, get_video))
+
     app.run_polling()
 
 threading.Thread(target=run_web).start()
